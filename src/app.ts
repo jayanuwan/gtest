@@ -4,8 +4,9 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import teacherRouter from './routes/teachers'
 
+
 const app: Application = express();
-const PORT: number = 3001;
+// const PORT: number = 3001;
 
 // Swagger configuration
 const options = {
@@ -16,12 +17,12 @@ const options = {
           version: '1.0.0',
           description: 'Test API',
       },
-      servers: [
-          {
-              url: `http://localhost:${PORT}`,
-              description: 'Dev server',
-          },
-      ],
+      // servers: [
+      //     {
+      //         url: `http://localhost:${PORT}`,
+      //         description: 'Dev server',
+      //     },
+      // ],
   },
   apis: ['**/*.ts'], // Path to the API docs
 };
@@ -29,16 +30,12 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-// Middleware for serving Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Middleware
 app.use(bodyParser.json());
 
-// Routes
 app.use('/api', teacherRouter);
 
-// Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });

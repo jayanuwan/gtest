@@ -40,7 +40,7 @@ export const registerStudent = async (
   const { teacher,student } = req.body;
   
   try {
-    const newStudent: Student = await teacherService.registerStudent(teacher,student);
+    const newStudent: any = await teacherService.registerStudent(teacher,student);
     
     res.status(201).json(newStudent);
   } catch (error: any) {
@@ -80,7 +80,7 @@ export const suspendStudent = async (
 ): Promise<void> => {
   const { email } = req.body;
   try {
-    const newStudent: Student = await teacherService.registerStudent(email);
+    const newStudent: any = await teacherService.registerStudent(email);
     console.log(newStudent);
     res.status(201).json(newStudent);
   } catch (error: any) {
@@ -125,7 +125,7 @@ export const getNotification = async (
 ): Promise<void> => {
   const { email } = req.body;
   try {
-    const newStudent: Student = await teacherService.registerStudent(email);
+    const newStudent: any = await teacherService.registerStudent(email);
     console.log(newStudent);
     res.status(201).json(newStudent);
   } catch (error: any) {

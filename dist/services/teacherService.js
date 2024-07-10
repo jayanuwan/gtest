@@ -14,27 +14,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommonStudent = exports.registerStudent = void 0;
 const db_1 = __importDefault(require("../config/db"));
-const registerStudent = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    return new Promise((resolve, reject) => {
-        db_1.default.query('INSERT INTO student (username, email) VALUES (?)', [email], (err, result) => {
-            if (err)
-                return reject(err);
-            const newStudent = {
-                id: result, email,
-                suspend: false
-            };
-            resolve(newStudent);
+const registerStudent = (teacher, student) => __awaiter(void 0, void 0, void 0, function* () {
+    const connection = yield db_1.default.getConnection();
+    try {
+        db_1.default.getConnection((err, connection) => {
+            connection.query("SELECT * FROM sometable", (error, results, fields) => {
+                // When done with the connection, release it.
+                connection.release();
+                // Handle error after the release.
+                if (error)
+                    throw error;
+                // Don't use the connection here, it has been returned to the pool.
+            });
         });
-    });
+        console.log("record added succesfully");
+    }
+    catch (error) {
+        throw new Error(`Error querying students: ${error}`);
+    }
+    finally {
+        connection.release();
+    }
 });
 exports.registerStudent = registerStudent;
 const getCommonStudent = (student) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
-        db_1.default.query('SELECT * FROM users WHERE id = ?', [student], (err, rows) => {
+        db_1.default.query("SELECT * FROM users WHERE id = ?", [student], (err, rows) => {
             if (err)
                 return reject(err);
             if (rows.length === 0)
-                return reject(new Error('User not found'));
+                return reject(new Error("User not found"));
             resolve(rows[0]);
         });
     });

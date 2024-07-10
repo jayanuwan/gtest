@@ -39,7 +39,7 @@ const teacherService = __importStar(require("../services/teacherService"));
  * /api/register:
  *   post:
  *     summary: Register a new student
- *     tags: [Students]
+ *     tags: [Teachers]
  *     requestBody:
  *       required: true
  *       content:
@@ -66,11 +66,9 @@ const teacherService = __importStar(require("../services/teacherService"));
  *         description: Internal Server Error
  */
 const registerStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
-    console.log("here", req.body);
+    const { teacher, student } = req.body;
     try {
-        const newStudent = yield teacherService.registerStudent(email);
-        console.log(newStudent);
+        const newStudent = yield teacherService.registerStudent(teacher, student);
         res.status(201).json(newStudent);
     }
     catch (error) {
@@ -83,7 +81,7 @@ exports.registerStudent = registerStudent;
  * /api/suspend:
  *   post:
  *     summary: Student suspend
- *     tags: [Students]
+ *     tags: [Teachers]
  *     requestBody:
  *       required: true
  *       content:
@@ -121,7 +119,7 @@ exports.suspendStudent = suspendStudent;
  * /api/retrievefornotifications:
  *   post:
  *     summary: retrieve a list of students who can receive a given notification
- *     tags: [Students]
+ *     tags: [Teachers]
  *     requestBody:
  *       required: true
  *       content:
@@ -164,7 +162,7 @@ exports.getNotification = getNotification;
  * /api/commonstudents?{teacherEmail}:
  *   get:
  *     summary: get common student
- *     tags: [Students]
+ *     tags: [Teachers]
  *     parameters:
  *      -  in: path
  *         name: teacherEmail
